@@ -156,6 +156,18 @@ else ifeq ($(platform), classic_armv7_a7)
 	endif
 #######################################
 
+# aarch64
+else ifneq (,$(findstring aarch64,$(platform)))
+        TARGET := $(TARGET_NAME)_libretro.so
+        LDFLAGS += -shared -Wl,--version-script=$(LIBRETRO_DIR)/link.T -Wl,--no-undefined
+        fpic := -fPIC
+#        CPUFLAGS += -DNO_ASM -DARM -D__arm__ -DARM_ASM -DNOSSE
+        WITH_DYNAREC=arm64
+#        PLATCFLAGS += -DARM
+        GLES = 1
+        GL_LIB := -lGLESv2
+
+
 # Nintendo Switch
 else ifeq ($(platform), libnx)
    include $(DEVKITPRO)/libnx/switch_rules
